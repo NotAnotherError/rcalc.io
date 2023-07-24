@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Volume Calculator</title>
+    <!-- Add Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <style>
+        body {
+            background-color: #1a1a1a;
+            color: #fff;
+        }
+
+        .container {
+            background-color: #2b2b2b;
+            padding: 20px;
+            border-radius: 5px;
+        }
+
+        .form-control {
+            background-color: #3c3c3c;
+            color: #fff;
+            border: none;
+        }
+
+        .btn-primary {
+            background-color: #338aff;
+            color: #fff;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background-color: #1f5cff;
+            color: #fff;
+        }
+
+        #result {
+            background-color: #3c3c3c;
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 5px;
+        }
+
+        /* Center the title and result label */
+        .title {
+            text-align: center;
+        }
+
+        #result-label {
+            text-align: center;
+        }
+
+        /* Remove up and down arrow selectors from input fields */
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        input[type="number"] {
+            -moz-appearance: textfield;
+        }
+
+        /* Separate the calculator buttons with a small space */
+        .calculator-btns {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container mt-5">
+        <h1 class="title mb-4">Volume Calculator</h1>
+        <form id="calculatorForm">
+            <div class="form-group">
+                <label for="inductRate">Induct Rate (units per hour):</label>
+                <input type="number" class="form-control" id="inductRate" step="0.01" required>
+            </div>
+
+            <div class="form-group">
+                <label for="goalVolume">Goal Volume (units):</label>
+                <input type="number" class="form-control" id="goalVolume" step="0.01" required>
+            </div>
+
+            <div class="form-group">
+                <label for="currentVolume">Current Volume (units):</label>
+                <input type="number" class="form-control" id="currentVolume" step="0.01" required>
+            </div>
+
+            <div class="form-group">
+                <label for="currentTime">Current Time (HH:MM or HH:MM AM/PM):</label>
+                <input type="text" class="form-control" id="currentTime" required>
+            </div>
+
+            <div class="form-group">
+                <label for="endTime">End Time (HH:MM or HH:MM AM/PM):</label>
+                <input type="text" class="form-control" id="endTime" required>
+            </div>
+
+            <div class="calculator-btns">
+                <button type="button" class="btn btn-primary" onclick="checkVolumeFromRate()">Check Volume from
+                    Rate</button>
+                <button type="button" class="btn btn-primary" onclick="calculateRateFromTime()">Calculate Rate from
+                    Time</button>
+            </div>
+        </form>
+
+        <h2 id="result-label" class="mt-4">Result:</h2>
+        <!-- Use a span with id "result" to allow inline styling -->
+        <p id="result"></p>
+    </div>
+
+    <!-- Add Bootstrap JS and jQuery (required for Bootstrap) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+        function checkVolumeFromRate() {
+            const inductRate = parseFloat(document.getElementById("inductRate").value);
+            const goalVolume = parseFloat(document.getElementById("goalVolume").value);
+            const currentVolume = parseFloat(document.getElementById("currentVolume").value);
+            const currentTimeInput = document.getElementById("currentTime").value;
+            const endTimeInput = document.getElementById("endTime").value;
+
+            // Convert input times to military time format (HH:MM)
+            const currentMilitaryTime = convertToMilitaryTime(currentTimeInput);
+            const endMilitaryTime = convertToMilitaryTime(endTimeInput);
+
+            // Calculate the time difference in minutes between currentMilitaryTime and endMilitaryTime
+            const timeRemaining = timeDifferenceInMinutes(currentMilitaryTime, endMilitaryTime);
+
+            // New Calculator 1
+            const ratePerMin = inductRate / 60;
+            const possibleVolume = ratePerMin * timeRemaining;
+            const finalVolume = currentVolume + possibleVolume;
+
+            let resultText = '';
+            if (finalVolume > goalVolume) {
+                // If finalVolume is greater than goalVolume, set the text color to green
+                resultText = `<span style="color: green;">Final volume: ${finalVolume.toFixed(2)}</span>`;
+            } else {
+                // If finalVolume is less than or equal to goalVolume, set the text color to red
+                resultText = `<span style="color: red;">Final volume: ${finalVolume.toFixed(2)}</span>`;
+            }
+
+            document.getElementById("result").innerHTML = resultText;
+        }
+
+        function calculateRateFromTime() {
+            const inductRate = parseFloat(document.getElementById("inductRate").value);
+            const goalVolume = parseFloat(document.getElementById("goalVolume").value);
+            const currentVolume = parseFloat(document.getElementById("currentVolume").value);
+            const currentTimeInput = document.getElementById("currentTime").value;
+            const endTimeInput = document.getElementById("endTime").value;
+
+            // Convert input times to military time format (HH:MM)
+            const currentMilitaryTime = convertToMilitaryTime(currentTimeInput);
+            const endMilitaryTime = convertToMilitaryTime(endTimeInput);
+
+            // Calculate the time difference in minutes between currentMilitaryTime and endMilitaryTime
+            const timeRemaining = timeDifferenceInMinutes(currentMilitaryTime, endMilitaryTime);
+
+            // New Calculator 2
+            const remainingVolume = goalVolume - currentVolume;
+            const xVolume = remainingVolume / timeRemaining;
+            const ratePerHour = xVolume * 60;
+
+            let resultText = '';
+            if (ratePerHour > inductRate) {
+                // If ratePerHour is greater than inductRate, set the text color to yellow
+                resultText = `<span style="color: yellow;">Rate per hour: ${ratePerHour.toFixed(2)}</span>`;
+            } else if (ratePerHour === inductRate) {
+                // If ratePerHour is equal to inductRate, set the text color to green
+                resultText = `<span style="color: green;">Rate per hour: ${ratePerHour.toFixed(2)}</span>`;
+            } else {
+                // If ratePerHour is less than inductRate, set the text color to red
+                resultText = `<span style="color: red;">Rate per hour: ${ratePerHour.toFixed(2)}</span>`;
+            }
+
+            document.getElementById("result").innerHTML = resultText;
+        }
+
+        function timeDifferenceInMinutes(time1, time2) {
+            const timeFormat = "HH:mm";
+            const dateTime1 = moment(time1, timeFormat);
+            const dateTime2 = moment(time2, timeFormat);
+            const timeDifference = Math.abs(dateTime2.diff(dateTime1, "minutes"));
+            return timeDifference;
+        }
+
+        function convertToMilitaryTime(timeStr) {
+            // Convert time to military time format (HH:mm)
+            const timeObj = moment(timeStr, "hh:mm A");
+            const militaryTimeStr = timeObj.format("HH:mm");
+            return militaryTimeStr;
+        }
+    </script>
+</body>
+
+</html>
