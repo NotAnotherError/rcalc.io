@@ -17,7 +17,6 @@
             padding: 20px;
             border-radius: 5px;
             position: relative;
-            /* Set the container to relative positioning */
         }
 
         .form-control {
@@ -72,18 +71,18 @@
             margin-top: 10px;
         }
 
-        
         .h-text {
             position: absolute;
             bottom: 5px;
             right: 5px;
             font-size: 10px;
             color: #0d0d0d;
+            /* A shade slightly off the background color */
             visibility: hidden;
         }
 
-        /* Show text in white when hovered over */
-        .container:hover .h-text {
+        /* Show text in white when hovered over the text */
+        .container:hover .h-text:hover {
             color: #fff;
             /* White text color on hover */
             visibility: visible;
@@ -218,12 +217,12 @@
             const timeFormat = "HH:mm";
             const datetime1 = moment(time1, timeFormat);
             const datetime2 = moment(time2, timeFormat);
-            const timeDifference = Math.abs(datetime2.diff(datetime1, "minutes"));
+            const timeDifference = Math.abs(datetime2.diff(datetime1)) / 60000; // Convert milliseconds to minutes
             return timeDifference;
         }
 
         function convertToMilitaryTime(timeStr) {
-            const timeObj = moment(timeStr, ["h:mm A", "H:mm"]);
+            const timeObj = moment(timeStr, ["h:mm A", "HH:mm"]);
             const militaryTimeStr = timeObj.format("HH:mm");
             return militaryTimeStr;
         }
