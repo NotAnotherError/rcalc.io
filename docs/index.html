@@ -16,6 +16,8 @@
             background-color: #2b2b2b;
             padding: 20px;
             border-radius: 5px;
+            position: relative;
+            /* Set the container to relative positioning */
         }
 
         .form-control {
@@ -69,6 +71,23 @@
             gap: 10px;
             margin-top: 10px;
         }
+
+        
+        .h-text {
+            position: absolute;
+            bottom: 5px;
+            right: 5px;
+            font-size: 10px;
+            color: #0d0d0d;
+            visibility: hidden;
+        }
+
+        /* Show text in white when hovered over */
+        .container:hover .h-text {
+            color: #fff;
+            /* White text color on hover */
+            visibility: visible;
+        }
     </style>
 </head>
 
@@ -112,6 +131,8 @@
         <h2 id="result-label" class="mt-4">Result:</h2>
         <!-- Use a span with id "result" to allow inline styling -->
         <p id="result"></p>
+
+        <div class="h-text">JT - DOK2</div>
     </div>
 
     <!-- Add Bootstrap JS and jQuery (required for Bootstrap) -->
@@ -141,13 +162,16 @@
             const possibleVolume = ratePerMin * timeRemaining;
             const finalVolume = currentVolume + possibleVolume;
 
+            // Round the finalVolume to the nearest whole number
+            const roundedFinalVolume = Math.round(finalVolume);
+
             let resultText = '';
-            if (finalVolume > goalVolume) {
-                // If finalVolume is greater than goalVolume, set the text color to green
-                resultText = '<span style="color: green;">Final volume: ' + finalVolume.toFixed(2) + '</span>';
+            if (roundedFinalVolume > goalVolume) {
+                // If roundedFinalVolume is greater than goalVolume, set the text color to green
+                resultText = '<span style="color: green;">Final volume: ' + roundedFinalVolume + '</span>';
             } else {
-                // If finalVolume is less than or equal to goalVolume, set the text color to red
-                resultText = '<span style="color: red;">Final volume: ' + finalVolume.toFixed(2) + '</span>';
+                // If roundedFinalVolume is less than or equal to goalVolume, set the text color to red
+                resultText = '<span style="color: red;">Final volume: ' + roundedFinalVolume + '</span>';
             }
 
             document.getElementById("result").innerHTML = resultText;
@@ -160,7 +184,7 @@
             const currentTimeInput = document.getElementById("currentTime").value;
             const endTimeInput = document.getElementById("endTime").value;
 
-            // Convert input times to military time format (HH:MM)
+            // Convert input times to military time format (HH:MM or HH:MM AM/PM)
             const currentMilitaryTime = convertToMilitaryTime(currentTimeInput);
             const endMilitaryTime = convertToMilitaryTime(endTimeInput);
 
@@ -172,16 +196,19 @@
             const xVolume = remainingVolume / timeRemaining;
             const ratePerHour = xVolume * 60;
 
+            // Round the ratePerHour to the nearest whole number
+            const roundedRatePerHour = Math.round(ratePerHour);
+
             let resultText = '';
-            if (ratePerHour > inductRate) {
-                // If ratePerHour is greater than inductRate, set the text color to yellow
-                resultText = '<span style="color: yellow;">Rate per hour: ' + ratePerHour.toFixed(2) + '</span>';
-            } else if (ratePerHour === inductRate) {
-                // If ratePerHour is equal to inductRate, set the text color to green
-                resultText = '<span style="color: green;">Rate per hour: ' + ratePerHour.toFixed(2) + '</span>';
+            if (roundedRatePerHour > inductRate) {
+                // If roundedRatePerHour is greater than inductRate, set the text color to yellow
+                resultText = '<span style="color: yellow;">Rate per hour: ' + roundedRatePerHour + '</span>';
+            } else if (roundedRatePerHour === inductRate) {
+                // If roundedRatePerHour is equal to inductRate, set the text color to green
+                resultText = '<span style="color: green;">Rate per hour: ' + roundedRatePerHour + '</span>';
             } else {
-                // If ratePerHour is less than inductRate, set the text color to red
-                resultText = '<span style="color: red;">Rate per hour: ' + ratePerHour.toFixed(2) + '</span>';
+                // If roundedRatePerHour is less than inductRate, set the text color to red
+                resultText = '<span style="color: red;">Rate per hour: ' + roundedRatePerHour + '</span>';
             }
 
             document.getElementById("result").innerHTML = resultText;
@@ -189,15 +216,14 @@
 
         function timeDifferenceInMinutes(time1, time2) {
             const timeFormat = "HH:mm";
-            const dateTime1 = moment(time1, timeFormat);
-            const dateTime2 = moment(time2, timeFormat);
-            const timeDifference = Math.abs(dateTime2.diff(dateTime1, "minutes"));
+            const datetime1 = moment(time1, timeFormat);
+            const datetime2 = moment(time2, timeFormat);
+            const timeDifference = Math.abs(datetime2.diff(datetime1, "minutes"));
             return timeDifference;
         }
 
         function convertToMilitaryTime(timeStr) {
-            // Convert time to military time format (HH:mm)
-            const timeObj = moment(timeStr, "hh:mm A");
+            const timeObj = moment(timeStr, ["h:mm A", "H:mm"]);
             const militaryTimeStr = timeObj.format("HH:mm");
             return militaryTimeStr;
         }
