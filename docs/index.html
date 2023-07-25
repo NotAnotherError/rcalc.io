@@ -170,47 +170,48 @@
             return timeDifference;
         }
 
-        function checkVolumeFromRate() {
-            const inductRate = parseFloat(document.getElementById("inductRate").value);
-            if (!inductRate) {
-                document.getElementById("result").innerHTML = '<span style="color: orange;">***Error: Please input an induct rate.***</span>';
-                return; // Return early to prevent further calculations
+        
+            function checkVolumeFromRate() {
+                const inductRate = parseFloat(document.getElementById("inductRate").value);
+                if (!inductRate) {
+                    document.getElementById("result").innerHTML = '<span style="color: orange;">***Error: Please input an induct rate.***</span>';
+                    return; // Return early to prevent further calculations
+                }
+
+                const goalVolume = parseFloat(document.getElementById("goalVolume").value);
+                const currentVolume = parseFloat(document.getElementById("currentVolume").value);
+                const currentTimeInput = document.getElementById("currentTime").value;
+                const endTimeInput = document.getElementById("endTime").value;
+
+                // Convert input times to military time format (HH:MM)
+                const currentMilitaryTime = convertToMilitaryTime(currentTimeInput);
+                const endMilitaryTime = convertToMilitaryTime(endTimeInput);
+
+                // Calculate the time difference in minutes between currentMilitaryTime and endMilitaryTime
+                const timeRemaining = timeDifferenceInMinutes(currentMilitaryTime, endMilitaryTime);
+
+                // New Calculator 1
+                const ratePerMin = inductRate / 60;
+                const possibleVolume = ratePerMin; // No need to multiply with timeRemaining
+                const finalVolume = currentVolume + possibleVolume;
+
+                // Round the finalVolume to the nearest whole number
+                const roundedFinalVolume = Math.round(finalVolume);
+
+                // Results
+                let resultText = '';
+                if (roundedFinalVolume >= goalVolume) {
+                    // If final volume is equal to or greater than goal volume, set the text color to green
+                    resultText = '<span style="color: green;">Final volume: ' + roundedFinalVolume + '</span>';
+                } else if (roundedFinalVolume < goalVolume - 1000) {
+                    // If final volume is less than goal volume by 1001 or more, set the text color to red
+                    resultText = '<span style="color: red;">Final volume: ' + roundedFinalVolume + '</span>';
+                } else {
+                    // For any other case (final volume is less than goal volume by 101 to 1000), set the text color to yellow
+                    resultText = '<span style="color: yellow;">Final volume: ' + roundedFinalVolume + '</span>';
+                }
+                document.getElementById("result").innerHTML = resultText;
             }
-
-            const goalVolume = parseFloat(document.getElementById("goalVolume").value);
-            const currentVolume = parseFloat(document.getElementById("currentVolume").value);
-            const currentTimeInput = document.getElementById("currentTime").value;
-            const endTimeInput = document.getElementById("endTime").value;
-
-            // Convert input times to military time format (HH:MM)
-            const currentMilitaryTime = convertToMilitaryTime(currentTimeInput);
-            const endMilitaryTime = convertToMilitaryTime(endTimeInput);
-
-            // Calculate the time difference in minutes between currentMilitaryTime and endMilitaryTime
-            const timeRemaining = timeDifferenceInMinutes(currentMilitaryTime, endMilitaryTime);
-
-            // New Calculator 1
-            const ratePerMin = inductRate / 60;
-            const possibleVolume = ratePerMin * timeRemaining;
-            const finalVolume = currentVolume + possibleVolume;
-
-            // Round the finalVolume to the nearest whole number
-            const roundedFinalVolume = Math.round(finalVolume);
-
-            // Results
-            let resultText = '';
-            if (roundedFinalVolume >= goalVolume) {
-                // If final volume is equal to or greater than goal volume, set the text color to green
-                resultText = '<span style="color: green;">Final volume: ' + roundedFinalVolume + '</span>';
-            } else if (roundedFinalVolume < goalVolume - 1000) {
-                // If final volume is less than goal volume by 1001 or more, set the text color to red
-                resultText = '<span style="color: red;">Final volume: ' + roundedFinalVolume + '</span>';
-            } else {
-                // For any other case (final volume is less than goal volume by 101 to 1000), set the text color to yellow
-                resultText = '<span style="color: yellow;">Final volume: ' + roundedFinalVolume + '</span>';
-            }
-            document.getElementById("result").innerHTML = resultText;
-        }
 
         function calculateRateFromTime() {
             const inductRate = parseFloat(document.getElementById("inductRate").value);
