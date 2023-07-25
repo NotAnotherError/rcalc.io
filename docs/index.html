@@ -144,11 +144,11 @@
     <script>
         function checkVolumeFromRate() {
             const inductRate = parseFloat(document.getElementById("inductRate").value);
-                if (!inductRate) {
-                    document.getElementById("result").innerHTML = '<span style="color: orange;">***Error: Please input an induct rate.***</span>';
-                    return; // Return early to prevent further calculations
+            if (!inductRate) {
+                document.getElementById("result").innerHTML = '<span style="color: orange;">***Error: Please input an induct rate.***</span>';
+                return; // Return early to prevent further calculations
             }
-            const inductRate = parseFloat(document.getElementById("inductRate").value);
+
             const goalVolume = parseFloat(document.getElementById("goalVolume").value);
             const currentVolume = parseFloat(document.getElementById("currentVolume").value);
             const currentTimeInput = document.getElementById("currentTime").value;
@@ -183,11 +183,11 @@
 
         function calculateRateFromTime() {
             const inductRate = parseFloat(document.getElementById("inductRate").value);
-                if (!inductRate) {
-                    document.getElementById("result").innerHTML = '<span style="color: orange;">***Error: Please input an induct rate.***</span>';
-                    return; // Return early to prevent further calculations
+            if (!inductRate) {
+                document.getElementById("result").innerHTML = '<span style="color: orange;">***Error: Please input an induct rate.***</span>';
+                return; // Return early to prevent further calculations
             }
-            const inductRate = parseFloat(document.getElementById("inductRate").value);
+
             const goalVolume = parseFloat(document.getElementById("goalVolume").value);
             const currentVolume = parseFloat(document.getElementById("currentVolume").value);
             const currentTimeInput = document.getElementById("currentTime").value;
@@ -208,7 +208,7 @@
             // Round the ratePerHour to the nearest whole number
             const roundedRatePerHour = Math.round(ratePerHour);
 
-           // Results
+            // Results
             let resultText = '';
             if (roundedRatePerHour > inductRate + 25) {
                 // If roundedRatePerHour is greater than 25 units higher than inductRate, set the text color to red
@@ -220,7 +220,6 @@
                 // If roundedRatePerHour is more than 25 units lower than inductRate, set the text color to yellow
                 resultText = '<span style="color: yellow;">Rate per hour: ' + roundedRatePerHour + ' -You are ahead of expected pace!</span>';
             }
-
 
             document.getElementById("result").innerHTML = resultText;
         }
