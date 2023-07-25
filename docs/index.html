@@ -200,14 +200,14 @@
 
             let resultText = '';
             if (roundedRatePerHour > inductRate) {
-                // If roundedRatePerHour is greater than inductRate, set the text color to yellow
-                resultText = '<span style="color: yellow;">Rate per hour: ' + roundedRatePerHour + '</span>';
+                // If roundedRatePerHour is greater than inductRate, set the text color to red
+                resultText = '<span style="color: red;">Rate per hour: ' + roundedRatePerHour + '</span>';
             } else if (roundedRatePerHour === inductRate) {
                 // If roundedRatePerHour is equal to inductRate, set the text color to green
                 resultText = '<span style="color: green;">Rate per hour: ' + roundedRatePerHour + '</span>';
             } else {
-                // If roundedRatePerHour is less than inductRate, set the text color to red
-                resultText = '<span style="color: red;">Rate per hour: ' + roundedRatePerHour + '</span>';
+                // If roundedRatePerHour is less than inductRate, set the text color to yellow
+                resultText = '<span style="color: yellow;">Rate per hour: ' + roundedRatePerHour + '</span>';
             }
 
             document.getElementById("result").innerHTML = resultText;
