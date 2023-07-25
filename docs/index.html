@@ -169,9 +169,10 @@
             // Round the finalVolume to the nearest whole number
             const roundedFinalVolume = Math.round(finalVolume);
 
+            // Results
             let resultText = '';
             const volumeDifference = goalVolume - roundedFinalVolume;
-            if (volumeDifference >= 100) {
+            if (volumeDifference <= -100) {
                 // If final volume is within 100 or higher than goal volume, set the text color to green
                 resultText = '<span style="color: green;">Final volume: ' + roundedFinalVolume + '</span>';
             } else if (volumeDifference >= -1000) {
