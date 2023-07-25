@@ -149,7 +149,7 @@
 
                     // Check if end time is earlier than start time (overnight shift)
                     if (datetime2.isBefore(datetime1)) {
-                        // Add 24 hours to the end time to account for overnight shift
+                        // Add 1 day (24 hours) to the end time to account for overnight shift
                         datetime2.add(1, 'day');
                     }
 
