@@ -171,22 +171,18 @@
 
             // Results
             
-            let resultText = '';
+           let resultText = '';
             const volumeDifference = goalVolume - roundedFinalVolume;
-            if (volumeDifference >= -100 && volumeDifference <= 100) {
+            if (volumeDifference <= 100 && volumeDifference >= -100) {
                 // If final volume is within 100 units of goal volume, set the text color to green
                 resultText = '<span style="color: green;">Final volume: ' + roundedFinalVolume + '</span>';
             } else if (volumeDifference >= -1000 && volumeDifference < -100) {
                 // If final volume is between 101 and 1000 less than goal volume, set the text color to yellow
                 resultText = '<span style="color: yellow;">Final volume: ' + roundedFinalVolume + '</span>';
-            } else if (volumeDifference >= -5000 && volumeDifference < -1000) {
-                // If final volume is between 1001 and 5000 less than goal volume, set the text color to red
-                resultText = '<span style="color: red;">Final volume: ' + roundedFinalVolume + '</span>';
             } else {
-                // If final volume is 5001 or more less than goal volume, set the text color to dark red
-                resultText = '<span style="color: darkred;">Final volume: ' + roundedFinalVolume + '</span>';
+                // For any other case, set the text color to red
+                resultText = '<span style="color: red;">Final volume: ' + roundedFinalVolume + '</span>';
             }
-
             document.getElementById("result").innerHTML = resultText;
         }
 
