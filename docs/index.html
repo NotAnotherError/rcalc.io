@@ -142,6 +142,21 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
 
     <script>
+            function timeDifferenceInMinutes(time1, time2) {
+                    const timeFormat = "HH:mm";
+                    const datetime1 = moment(time1, timeFormat);
+                    const datetime2 = moment(time2, timeFormat);
+
+                    // Check if end time is earlier than start time (overnight shift)
+                    if (datetime2.isBefore(datetime1)) {
+                        // Add 24 hours to the end time to account for overnight shift
+                        datetime2.add(1, 'day');
+                    }
+
+                    const timeDifference = Math.abs(datetime2.diff(datetime1)) / 60000; // Convert milliseconds to minutes
+                    return timeDifference;
+                }
+
         function checkVolumeFromRate() {
             const inductRate = parseFloat(document.getElementById("inductRate").value);
             if (!inductRate) {
