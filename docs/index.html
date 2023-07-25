@@ -170,12 +170,19 @@
             const roundedFinalVolume = Math.round(finalVolume);
 
             let resultText = '';
-            if (roundedFinalVolume > goalVolume) {
-                // If roundedFinalVolume is greater than goalVolume, set the text color to green
+            const volumeDifference = goalVolume - roundedFinalVolume;
+            if (volumeDifference >= 100) {
+                // If final volume is within 100 or higher than goal volume, set the text color to green
                 resultText = '<span style="color: green;">Final volume: ' + roundedFinalVolume + '</span>';
-            } else {
-                // If roundedFinalVolume is less than or equal to goalVolume, set the text color to red
+            } else if (volumeDifference >= -1000) {
+                // If final volume is between 500 and 1000 less than goal volume, set the text color to yellow
+                resultText = '<span style="color: yellow;">Final volume: ' + roundedFinalVolume + '</span>';
+            } else if (volumeDifference >= -5000) {
+                // If final volume is between 1001 and 5000 less than goal volume, set the text color to red
                 resultText = '<span style="color: red;">Final volume: ' + roundedFinalVolume + '</span>';
+            } else {
+                // If final volume is more than 5000 less than goal volume, set the text color to dark red
+                resultText = '<span style="color: darkred;">Final volume: ' + roundedFinalVolume + '</span>';
             }
 
             document.getElementById("result").innerHTML = resultText;
