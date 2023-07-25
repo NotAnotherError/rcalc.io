@@ -222,7 +222,7 @@
                 resultText = '<span style="color: green;">Rate per hour: ' + roundedRatePerHour + ' -You are right on target!</span>';
             } else {
                 // If roundedRatePerHour is more than 25 units lower than inductRate, set the text color to yellow
-                resultText = '<span style="color: yellow;">Rate per hour: ' + roundedRatePerHour + ' -You are ahead of expected pace!</span>';
+                resultText = '<span style="color: lightgreen;">Rate per hour: ' + roundedRatePerHour + ' -You are ahead of expected pace!</span>';
             }
 
             document.getElementById("result").innerHTML = resultText;
