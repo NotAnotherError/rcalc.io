@@ -171,22 +171,16 @@
 
             // Results
             
-               let resultText = '';
-            if (roundedFinalVolume > goalVolume) {
-                // If final volume is more than goal volume, set the text color to green
+            let resultText = '';
+            if (roundedFinalVolume >= goalVolume) {
+                // If final volume is equal to or greater than goal volume, set the text color to green
                 resultText = '<span style="color: green;">Final volume: ' + roundedFinalVolume + '</span>';
+            } else if (roundedFinalVolume < goalVolume - 1000) {
+                // If final volume is less than goal volume by 1001 or more, set the text color to red
+                resultText = '<span style="color: red;">Final volume: ' + roundedFinalVolume + '</span>';
             } else {
-                const volumeDifference = goalVolume - roundedFinalVolume;
-                if (volumeDifference >= -100 && volumeDifference <= 100) {
-                    // If final volume is within 100 units of goal volume, set the text color to green
-                    resultText = '<span style="color: green;">Final volume: ' + roundedFinalVolume + '</span>';
-                } else if (volumeDifference < -100 && volumeDifference >= -1000) {
-                    // If final volume is between 101 and 1000 less than goal volume, set the text color to yellow
-                    resultText = '<span style="color: yellow;">Final volume: ' + roundedFinalVolume + '</span>';
-                } else {
-                    // For any other case, set the text color to red
-                    resultText = '<span style="color: red;">Final volume: ' + roundedFinalVolume + '</span>';
-                }
+                // For any other case (final volume is less than goal volume by 101 to 1000), set the text color to yellow
+                resultText = '<span style="color: yellow;">Final volume: ' + roundedFinalVolume + '</span>';
             }
             document.getElementById("result").innerHTML = resultText;
         }
