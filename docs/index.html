@@ -143,19 +143,24 @@
 
     <script>
             
-        function timeDifferenceInMinutes(time1, time2) {
-            const timeFormat = "HH:mm";
-            const datetime1 = moment(time1, timeFormat);
-            const datetime2 = moment(time2, timeFormat);
+         function timeDifferenceInMinutes(time1, time2) {
+                const timeFormat = "HH:mm";
+                const currentDateTime = moment();
+                const datetime1 = moment(time1, timeFormat);
+                const datetime2 = moment(time2, timeFormat);
 
-            // Check if end time is earlier than start time (overnight shift)
-            if (datetime2.isBefore(datetime1)) {
-            // Add 1 day (24 hours) to the end time to account for overnight shift
-                datetime2.add(1, 'day');
-            }
+                // If datetime2 is before datetime1, it's an overnight shift, add 1 day to datetime2
+                if (datetime2.isBefore(datetime1)) {
+                    datetime2.add(1, 'day');
+                }
 
-            const timeDifference = Math.abs(datetime2.diff(datetime1)) / 60000; // Convert milliseconds to minutes
-            return timeDifference;
+                // Check if end time is earlier than the current time, if so, assume it's from the next day
+                if (datetime2.isBefore(currentDateTime)) {
+                    datetime2.add(1, 'day');
+                }
+
+                const timeDifference = Math.abs(datetime2.diff(datetime1)) / 60000; // Convert milliseconds to minutes
+                return timeDifference;
             }
 
         function checkVolumeFromRate() {
