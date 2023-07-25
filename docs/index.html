@@ -87,6 +87,17 @@
             /* White text color on hover */
             visibility: visible;
         }
+
+        /* Small adjustments for mobile responsiveness */
+        @media (max-width: 768px) {
+            .form-control {
+                font-size: 14px;
+            }
+
+            .btn-primary {
+                font-size: 14px;
+            }
+        }
     </style>
 </head>
 
@@ -127,9 +138,11 @@
             </div>
         </form>
 
-        <h2 id="result-label" class="mt-4">Result:</h2>
-        <!-- Use a span with id "result" to allow inline styling -->
-        <p id="result"></p>
+        <div class="result-container mt-4">
+            <h2 id="result-label" class="mt-2">Result:</h2>
+            <!-- Use a span with id "result" to allow inline styling -->
+            <p id="result"></p>
+        </div>
 
         <div class="h-text">JT - DOK2</div>
     </div>
@@ -169,7 +182,7 @@
             const currentTimeInput = document.getElementById("currentTime").value;
             const endTimeInput = document.getElementById("endTime").value;
 
-            // Convert input times to military time format (HH:MM or HH:MM AM/PM)
+            // Convert input times to military time format (HH:MM)
             const currentMilitaryTime = convertToMilitaryTime(currentTimeInput);
             const endMilitaryTime = convertToMilitaryTime(endTimeInput);
 
@@ -246,14 +259,7 @@
             const timeFormat = "HH:mm";
             const datetime1 = moment(time1, timeFormat);
             const datetime2 = moment(time2, timeFormat);
-
-            // Check if the end time is earlier than the current time (assuming same day)
-            if (datetime2.isBefore(datetime1)) {
-                // Add 1 day (24 hours) to the end time to account for overnight shift
-                datetime2.add(1, 'day');
-            }
-
-            const timeDifference = datetime2.diff(datetime1, 'minutes');
+            const timeDifference = Math.abs(datetime2.diff(datetime1)) / 60000; // Convert milliseconds to minutes
             return timeDifference;
         }
 
@@ -262,3 +268,7 @@
             const militaryTimeStr = timeObj.format("HH:mm");
             return militaryTimeStr;
         }
+    </script>
+</body>
+
+</html>
