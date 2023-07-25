@@ -144,6 +144,11 @@
     <script>
         function checkVolumeFromRate() {
             const inductRate = parseFloat(document.getElementById("inductRate").value);
+                if (!inductRate) {
+                    document.getElementById("result").innerHTML = '<span style="color: orange;">***Error: Please input an induct rate.***</span>';
+                    return; // Return early to prevent further calculations
+            }
+            const inductRate = parseFloat(document.getElementById("inductRate").value);
             const goalVolume = parseFloat(document.getElementById("goalVolume").value);
             const currentVolume = parseFloat(document.getElementById("currentVolume").value);
             const currentTimeInput = document.getElementById("currentTime").value;
@@ -177,6 +182,11 @@
         }
 
         function calculateRateFromTime() {
+            const inductRate = parseFloat(document.getElementById("inductRate").value);
+                if (!inductRate) {
+                    document.getElementById("result").innerHTML = '<span style="color: orange;">***Error: Please input an induct rate.***</span>';
+                    return; // Return early to prevent further calculations
+            }
             const inductRate = parseFloat(document.getElementById("inductRate").value);
             const goalVolume = parseFloat(document.getElementById("goalVolume").value);
             const currentVolume = parseFloat(document.getElementById("currentVolume").value);
