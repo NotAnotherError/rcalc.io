@@ -198,16 +198,16 @@
             // Round the ratePerHour to the nearest whole number
             const roundedRatePerHour = Math.round(ratePerHour);
 
-            // Results
+           // Results
             let resultText = '';
-            if (roundedRatePerHour > inductRate) {
-                // If roundedRatePerHour is greater than inductRate, set the text color to red
+            if (roundedRatePerHour > inductRate + 25) {
+                // If roundedRatePerHour is greater than 25 units higher than inductRate, set the text color to red
                 resultText = '<span style="color: red;">Rate per hour: ' + roundedRatePerHour + ' -Behind expected pace!</span>';
-            } else if (roundedRatePerHour === inductRate) {
-                // If roundedRatePerHour is equal to inductRate, set the text color to green
+            } else if (roundedRatePerHour >= inductRate - 25 && roundedRatePerHour <= inductRate + 25) {
+                // If roundedRatePerHour is within 25 units higher or lower than inductRate, set the text color to green
                 resultText = '<span style="color: green;">Rate per hour: ' + roundedRatePerHour + ' -Right on target!</span>';
             } else {
-                // If roundedRatePerHour is less than inductRate, set the text color to yellow
+                // If roundedRatePerHour is more than 25 units lower than inductRate, set the text color to yellow
                 resultText = '<span style="color: yellow;">Rate per hour: ' + roundedRatePerHour + ' -Ahead of expected pace!</span>';
             }
 
