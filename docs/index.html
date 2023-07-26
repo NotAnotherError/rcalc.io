@@ -263,7 +263,7 @@
             resultText = '<span style="color: red;">Rate per hour: ' + roundedRatePerHour + ' -You are behind expected pace!</span>';
         } else if (roundedRatePerHour >= inductRate - 25 && roundedRatePerHour <= inductRate + 25) {
             // If roundedRatePerHour is within 25 units higher or lower than inductRate, set the text color to green
-            resultText = '<span style="color: green;">Rate per hour: ' + roundedRatePerHour + ' -You are right on target!</span>';
+            resultText = '<span style="color: green;">Rate per hour: ' + roundedRatePerHour + ' -You are in the zone!</span>';
         } else {
             // If roundedRatePerHour is more than 25 units lower than inductRate, set the text color to lightgreen
             resultText = '<span style="color: lightgreen;">Rate per hour: ' + roundedRatePerHour + ' -You are ahead of expected pace!</span>';
