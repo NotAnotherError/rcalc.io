@@ -178,7 +178,7 @@
             return militaryTimeStr;
         }
 
-        function calculateRateFromTime() {
+        function checkVolumeFromRate() {
                 const inductRate = parseFloat(document.getElementById("inductRate").value);
                 if (!inductRate) {
                     document.getElementById("result").innerHTML = '<span style="color: orange;">***Error: Please input an induct rate.***</span>';
