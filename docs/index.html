@@ -154,9 +154,9 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <!-- Add moment.js library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
-
+    
     <script>
-    function timeDifferenceInMinutes(time1, time2) {
+        function timeDifferenceInMinutes(time1, time2) {
             const timeFormat = "HH:mm";
             const datetime1 = moment(time1, timeFormat);
             const datetime2 = moment(time2, timeFormat);
@@ -165,7 +165,6 @@
         }
 
         function convertToMilitaryTime(timeStr) {
-            // Create moment objects for the current time and end time
             const currentTimeObj = moment();
             const endTimeObj = moment(timeStr, ["h:mm A", "HH:mm"]);
 
@@ -175,14 +174,11 @@
                 endTimeObj.add(1, 'day');
             }
 
-            // Format the end time in military time (HH:mm)
             const militaryTimeStr = endTimeObj.format("HH:mm");
             return militaryTimeStr;
         }
-        
 
         function checkVolumeFromRate() {
-            // Your existing code for checkVolumeFromRate
             const inductRate = parseFloat(document.getElementById("inductRate").value);
             if (!inductRate) {
                 document.getElementById("result").innerHTML = '<span style="color: orange;">***Error: Please input an induct rate.***</span>';
@@ -220,7 +216,6 @@
         }
 
         function calculateRateFromTime() {
-            // Your existing code for calculateRateFromTime
             const inductRate = parseFloat(document.getElementById("inductRate").value);
             if (!inductRate) {
                 document.getElementById("result").innerHTML = '<span style="color: orange;">***Error: Please input an induct rate.***</span>';
