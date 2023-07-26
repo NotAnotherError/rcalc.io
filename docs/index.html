@@ -170,6 +170,13 @@
                 return militaryTimeStr;
             }
         }
+        function timeDifferenceInMinutes(time1, time2) {
+                const timeFormat = "HH:mm";
+                const datetime1 = moment(time1, timeFormat);
+                const datetime2 = moment(time2, timeFormat);
+                const timeDifference = Math.abs(datetime2.diff(datetime1)) / 60000; // Convert milliseconds to minutes
+                return timeDifference;
+            }
             
         function checkVolumeFromRate() {
             const inductRate = parseFloat(document.getElementById("inductRate").value);
