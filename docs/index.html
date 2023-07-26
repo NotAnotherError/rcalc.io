@@ -156,7 +156,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
 
     <script>
-     function timeDifferenceInMinutes(time1, time2) {
+    function timeDifferenceInMinutes(time1, time2) {
             const timeFormat = "HH:mm";
             const datetime1 = moment(time1, timeFormat);
             const datetime2 = moment(time2, timeFormat);
@@ -165,9 +165,20 @@
         }
 
         function convertToMilitaryTime(timeStr) {
-            const timeObj = moment(timeStr, ["h:mm A", "HH:mm"]);
-            const militaryTimeStr = timeObj.format("HH:mm");
+            // Create moment objects for the current time and end time
+            const currentTimeObj = moment();
+            const endTimeObj = moment(timeStr, ["h:mm A", "HH:mm"]);
+
+            // Check if the end time is earlier than the current time
+            if (endTimeObj.isBefore(currentTimeObj)) {
+                // If so, assume the end time is on the next day
+                endTimeObj.add(1, 'day');
+            }
+
+            // Format the end time in military time (HH:mm)
+            const militaryTimeStr = endTimeObj.format("HH:mm");
             return militaryTimeStr;
+        }
         }
 
         function checkVolumeFromRate() {
