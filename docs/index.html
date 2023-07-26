@@ -239,11 +239,18 @@
         document.getElementById("result").innerHTML = resultText;
     }
 
-        function timeDifferenceInMinutes(time1, time2) {
+    function timeDifferenceInMinutes(time1, time2) {
             const timeFormat = "HH:mm";
             const datetime1 = moment(time1, timeFormat);
             const datetime2 = moment(time2, timeFormat);
-            const timeDifference = Math.abs(datetime2.diff(datetime1)) / 60000; // Convert milliseconds to minutes
+
+            // Check if the end time is earlier than the current time (assuming same day)
+            if (datetime2.isBefore(datetime1)) {
+                // Set the date of datetime2 to be the next day without modifying the time
+                datetime2.set({ 'date': datetime2.get('date') + 1 });
+            }
+
+            const timeDifference = datetime2.diff(datetime1, 'minutes');
             return timeDifference;
         }
 
