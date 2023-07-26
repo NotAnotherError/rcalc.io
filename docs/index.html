@@ -154,8 +154,23 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <!-- Add moment.js library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
-    
+
     <script>
+
+    
+        function convertToMilitaryTime(timeStr) {
+            // Check if the time string contains "AM" or "PM"
+            if (timeStr.includes("AM") || timeStr.includes("PM")) {
+                // Format with AM/PM
+                const militaryTimeStr = moment(timeStr, ["h:mm A", "hh:mm A"]).format("HH:mm");
+                return militaryTimeStr;
+            } else {
+                // Format without AM/PM
+                const militaryTimeStr = moment(timeStr, "HH:mm").format("HH:mm");
+                return militaryTimeStr;
+            }
+        }
+            
         function checkVolumeFromRate() {
             const inductRate = parseFloat(document.getElementById("inductRate").value);
             if (!inductRate) {
@@ -180,11 +195,11 @@
             const possibleVolume = ratePerMinute * timeDifference;
             const finalVolume = currentVolume + possibleVolume;
 
-             // Display the result based on goal volume comparison
+            // Display the result based on goal volume comparison
             let resultText = '';
             if (finalVolume >= goalVolume) {
                 resultText = '<span style="color: green;">Final volume: ' + finalVolume + '</span>';
-             } else if (finalVolume < goalVolume - 1000) {
+            } else if (finalVolume < goalVolume - 1000) {
                 resultText = '<span style="color: red;">Final volume: ' + finalVolume + '</span>';
             } else {
                 resultText = '<span style="color: yellow;">Final volume: ' + finalVolume + '</span>';
@@ -236,6 +251,6 @@
             document.getElementById("result").innerHTML = resultText;
         }
     </script>
-    </body>
-    
-    </html>
+</body>
+
+</html>
