@@ -158,27 +158,7 @@
     <script>
 
     
-        function convertToMilitaryTime(timeStr) {
-            // Check if the time string contains "AM" or "PM"
-            if (timeStr.includes("AM") || timeStr.includes("PM")) {
-                // Format with AM/PM
-                const militaryTimeStr = moment(timeStr, ["h:mm A", "hh:mm A"]).format("HH:mm");
-                return militaryTimeStr;
-            } else {
-                // Format without AM/PM
-                const militaryTimeStr = moment(timeStr, "HH:mm").format("HH:mm");
-                return militaryTimeStr;
-            }
-        }
-        function timeDifferenceInMinutes(time1, time2) {
-                const timeFormat = "HH:mm";
-                const datetime1 = moment(time1, timeFormat);
-                const datetime2 = moment(time2, timeFormat);
-                const timeDifference = Math.abs(datetime2.diff(datetime1)) / 60000; // Convert milliseconds to minutes
-                return timeDifference;
-            }
-            
-        function checkVolumeFromRate() {
+    function checkVolumeFromRate() {
             const inductRate = parseFloat(document.getElementById("inductRate").value);
             if (!inductRate) {
                 document.getElementById("result").innerHTML = '<span style="color: orange;">***Error: Please input an induct rate.***</span>';
@@ -198,9 +178,8 @@
             const timeDifference = timeDifferenceInMinutes(currentMilitaryTime, endMilitaryTime);
 
             // Calculate the volume based on the corrected time difference
-            const ratePerMinute = inductRate / 60;
-            const pvolume = ratePerMinute * timeDifference;
-            const possibleVolume = pvolume / 2;
+            const ratePerMin = inductRate / 60;
+            const possibleVolume = ratePerMin * timeDifference;
             const finalVolume = currentVolume + possibleVolume;
 
             // Display the result based on goal volume comparison
@@ -217,49 +196,64 @@
         }
 
         function calculateRateFromTime() {
-                const inductRate = parseFloat(document.getElementById("inductRate").value);
-                if (!inductRate) {
-                    document.getElementById("result").innerHTML = '<span style="color: orange;">***Error: Please input an induct rate.***</span>';
-                    return; // Return early to prevent further calculations
-                }
-
-                const goalVolume = parseFloat(document.getElementById("goalVolume").value);
-                const currentVolume = parseFloat(document.getElementById("currentVolume").value);
-                const currentTimeInput = document.getElementById("currentTime").value;
-                const endTimeInput = document.getElementById("endTime").value;
-
-                // Convert input times to military time format (HH:MM or HH:MM AM/PM)
-                const currentMilitaryTime = convertToMilitaryTime(currentTimeInput);
-                const endMilitaryTime = convertToMilitaryTime(endTimeInput);
-
-                // Calculate the time difference in minutes between currentMilitaryTime and endMilitaryTime
-                const timeDifference = timeDifferenceInMinutes(currentMilitaryTime, endMilitaryTime);
-
-                // New Calculator 2
-                const remainingVolume = goalVolume - currentVolume;
-                const xVolume = remainingVolume / timeDifference;
-                const ratePerHour = xVolume * 60;
-
-                // Round the ratePerHour to the nearest whole number
-                const roundedRatePerHour = Math.round(ratePerHour);
-
-                // Results
-                let resultText = '';
-                if (roundedRatePerHour > inductRate + 25) {
-                    // If roundedRatePerHour is greater than 25 units higher than inductRate, set the text color to red
-                    resultText = '<span style="color: red;">Rate per hour: ' + roundedRatePerHour + ' -You are behind expected pace!</span>';
-                } else if (roundedRatePerHour >= inductRate - 25 && roundedRatePerHour <= inductRate + 25) {
-                    // If roundedRatePerHour is within 25 units higher or lower than inductRate, set the text color to green
-                    resultText = '<span style="color: green;">Rate per hour: ' + roundedRatePerHour + ' -You are right on target!</span>';
-                } else {
-                    // If roundedRatePerHour is more than 25 units lower than inductRate, set the text color to yellow
-                    resultText = '<span style="color: lightgreen;">Rate per hour: ' + roundedRatePerHour + ' -You are ahead of expected pace!</span>';
-                }
-
-
-
-                document.getElementById("result").innerHTML = resultText;
+            const inductRate = parseFloat(document.getElementById("inductRate").value);
+            if (!inductRate) {
+                document.getElementById("result").innerHTML = '<span style="color: orange;">***Error: Please input an induct rate.***</span>';
+                return; // Return early to prevent further calculations
             }
+
+            const goalVolume = parseFloat(document.getElementById("goalVolume").value);
+            const currentVolume = parseFloat(document.getElementById("currentVolume").value);
+            const currentTimeInput = document.getElementById("currentTime").value;
+            const endTimeInput = document.getElementById("endTime").value;
+
+            // Convert input times to military time format (HH:MM or HH:MM AM/PM)
+            const currentMilitaryTime = convertToMilitaryTime(currentTimeInput);
+            const endMilitaryTime = convertToMilitaryTime(endTimeInput);
+
+            // Calculate the time difference in minutes between currentMilitaryTime and endMilitaryTime
+            const timeDifference = timeDifferenceInMinutes(currentMilitaryTime, endMilitaryTime);
+
+            // New Calculator 2
+            const remainingVolume = goalVolume - currentVolume;
+            const xVolume = remainingVolume / timeDifference;
+            const ratePerHour = xVolume * 60;
+
+            // Round the ratePerHour to the nearest whole number
+            const roundedRatePerHour = Math.round(ratePerHour);
+
+            // Results
+            let resultText = '';
+            if (roundedRatePerHour > inductRate + 25) {
+                // If roundedRatePerHour is greater than 25 units higher than inductRate, set the text color to red
+                resultText = '<span style="color: red;">Rate per hour: ' + roundedRatePerHour + ' -You are behind expected pace!</span>';
+            } else if (roundedRatePerHour >= inductRate - 25 && roundedRatePerHour <= inductRate + 25) {
+                // If roundedRatePerHour is within 25 units higher or lower than inductRate, set the text color to green
+                resultText = '<span style="color: green;">Rate per hour: ' + roundedRatePerHour + ' -You are right on target!</span>';
+            } else {
+                // If roundedRatePerHour is more than 25 units lower than inductRate, set the text color to yellow
+                resultText = '<span style="color: lightgreen;">Rate per hour: ' + roundedRatePerHour + ' -You are ahead of expected pace!</span>';
+            }
+
+            document.getElementById("result").innerHTML = resultText;
+        }
+
+        function timeDifferenceInMinutes(time1, time2) {
+            const timeFormat = "HH:mm";
+            const datetime1 = moment(time1, timeFormat);
+            const datetime2 = moment(time2, timeFormat);
+            const timeDifference = Math.abs(datetime2.diff(datetime1)) / 60000; // Convert milliseconds to minutes
+            return timeDifference;
+        }
+
+        function convertToMilitaryTime(timeStr) {
+            const timeObj = moment(timeStr, ["h:mm A", "HH:mm"]);
+            const militaryTimeStr = timeObj.format("HH:mm");
+            return militaryTimeStr;
+        }
+
+
+        
             document.getElementById("result").innerHTML = resultText;
     </script>
 </body>
