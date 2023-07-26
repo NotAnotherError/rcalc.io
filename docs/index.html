@@ -199,8 +199,9 @@
 
             // Calculate the volume based on the corrected time difference
             const ratePerMinute = inductRate / 60;
-            const possibleVolume = ratePerMinute * timeDifference;
-            const finalVolume = currentVolume + possibleVolume;
+            const pvolume = ratePerMinute * timeDifference;
+            const possibleVolume = pvolume / 2;
+            const finalvolume = currentVolume + possibleVolume;
 
             // Display the result based on goal volume comparison
             let resultText = '';
