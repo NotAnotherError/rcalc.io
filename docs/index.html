@@ -201,7 +201,7 @@
             const ratePerMinute = inductRate / 60;
             const pvolume = ratePerMinute * timeDifference;
             const possibleVolume = pvolume / 2;
-            const finalvolume = currentVolume + possibleVolume;
+            const finalVolume = currentVolume + possibleVolume;
 
             // Display the result based on goal volume comparison
             let resultText = '';
@@ -234,10 +234,11 @@
 
             // Calculate the time difference in minutes between currentMilitaryTime and endMilitaryTime
             const timeDifference = timeDifferenceInMinutes(currentMilitaryTime, endMilitaryTime);
+            const timeRemaining = timeDifferenceInMinutes(currentMilitaryTime, endMilitaryTime);
 
             // New Calculator 2
             const remainingVolume = goalVolume - currentVolume;
-            const xVolume = remainingVolume / timeDifference;
+            const xVolume = remainingVolume / timeRemaining;
             const ratePerHour = xVolume * 60;
 
             // Round the ratePerHour to the nearest whole number
