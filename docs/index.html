@@ -182,14 +182,17 @@
             const possibleVolume = ratePerMin * timeDifference;
             const finalVolume = currentVolume + possibleVolume;
 
+            //round the volume
+            const roundedfinalVolume = Math.round(finalVolume);
+
             // Display the result based on goal volume comparison
             let resultText = '';
             if (finalVolume >= goalVolume) {
-                resultText = '<span style="color: green;">Final volume: ' + finalVolume + '</span>';
+                resultText = '<span style="color: green;">Final volume: ' + roundedfinalVolume + '</span>';
             } else if (finalVolume < goalVolume - 1000) {
-                resultText = '<span style="color: red;">Final volume: ' + finalVolume + '</span>';
+                resultText = '<span style="color: red;">Final volume: ' + roundedfinalVolume + '</span>';
             } else {
-                resultText = '<span style="color: yellow;">Final volume: ' + finalVolume + '</span>';
+                resultText = '<span style="color: yellow;">Final volume: ' + roundedfinalVolume + '</span>';
             }
 
             document.getElementById("result").innerHTML = resultText;
