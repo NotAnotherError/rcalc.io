@@ -195,7 +195,7 @@
             document.getElementById("result").innerHTML = resultText;
         }
 
-        function calculateRateFromTime() {
+    function calculateRateFromTime() {
             const inductRate = parseFloat(document.getElementById("inductRate").value);
             if (!inductRate) {
                 document.getElementById("result").innerHTML = '<span style="color: orange;">***Error: Please input an induct rate.***</span>';
@@ -212,27 +212,33 @@
             const endMilitaryTime = convertToMilitaryTime(endTimeInput);
 
             // Calculate the time difference in minutes between currentMilitaryTime and endMilitaryTime
-            const timeDifference = timeDifferenceInMinutes(currentMilitaryTime, endMilitaryTime);
+            const timeRemaining = timeDifferenceInMinutes(currentMilitaryTime, endMilitaryTime);
 
-            // New Calculator 2
-            const remainingVolume = goalVolume - currentVolume;
-            const xVolume = remainingVolume / timeDifference;
-            const ratePerHour = xVolume * 60;
+            // Calculate the rate for the working hours (excluding overnight hours)
+            const workingHoursRatePerMin = inductRate / 60;
+            let workingHoursVolume = workingHoursRatePerMin * timeRemaining;
 
-            // Round the ratePerHour to the nearest whole number
-            const roundedRatePerHour = Math.round(ratePerHour);
+            // Handle overnight shift separately
+            if (endMilitaryTime < currentMilitaryTime) {
+                // Calculate the time difference in minutes for overnight hours (from end time to midnight)
+                const overnightTimeRemaining = timeDifferenceInMinutes(endMilitaryTime, '00:00');
+                // Calculate the volume for the overnight hours
+                const overnightRatePerMin = inductRate / 60;
+                const overnightVolume = overnightRatePerMin * overnightTimeRemaining;
+                // Add the overnight volume to the working hours volume
+                workingHoursVolume += overnightVolume;
+            }
 
-            // Results
+            const finalVolume = currentVolume + workingHoursVolume;
+
+            // Display the result based on goal volume comparison
             let resultText = '';
-            if (roundedRatePerHour > inductRate + 25) {
-                // If roundedRatePerHour is greater than 25 units higher than inductRate, set the text color to red
-                resultText = '<span style="color: red;">Rate per hour: ' + roundedRatePerHour + ' -You are behind expected pace!</span>';
-            } else if (roundedRatePerHour >= inductRate - 25 && roundedRatePerHour <= inductRate + 25) {
-                // If roundedRatePerHour is within 25 units higher or lower than inductRate, set the text color to green
-                resultText = '<span style="color: green;">Rate per hour: ' + roundedRatePerHour + ' -You are right on target!</span>';
+            if (finalVolume >= goalVolume) {
+                resultText = '<span style="color: green;">Final volume: ' + finalVolume + '</span>';
+            } else if (finalVolume < goalVolume - 1000) {
+                resultText = '<span style="color: red;">Final volume: ' + finalVolume + '</span>';
             } else {
-                // If roundedRatePerHour is more than 25 units lower than inductRate, set the text color to yellow
-                resultText = '<span style="color: lightgreen;">Rate per hour: ' + roundedRatePerHour + ' -You are ahead of expected pace!</span>';
+                resultText = '<span style="color: yellow;">Final volume: ' + finalVolume + '</span>';
             }
 
             document.getElementById("result").innerHTML = resultText;
