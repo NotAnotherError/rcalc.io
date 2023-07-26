@@ -155,7 +155,22 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
 
     <script>
-    function checkVolumeFromRate() {
+     function timeDifferenceInMinutes(time1, time2) {
+            const timeFormat = "HH:mm";
+            const datetime1 = moment(time1, timeFormat);
+            const datetime2 = moment(time2, timeFormat);
+            const timeDifference = Math.abs(datetime2.diff(datetime1)) / 60000; // Convert milliseconds to minutes
+            return timeDifference;
+        }
+
+        function convertToMilitaryTime(timeStr) {
+            const timeObj = moment(timeStr, ["h:mm A", "HH:mm"]);
+            const militaryTimeStr = timeObj.format("HH:mm");
+            return militaryTimeStr;
+        }
+
+        function checkVolumeFromRate() {
+            // Your existing code for checkVolumeFromRate
             const inductRate = parseFloat(document.getElementById("inductRate").value);
             if (!inductRate) {
                 document.getElementById("result").innerHTML = '<span style="color: orange;">***Error: Please input an induct rate.***</span>';
@@ -172,19 +187,7 @@
             const endMilitaryTime = convertToMilitaryTime(endTimeInput);
 
             // Calculate the time difference in minutes between currentMilitaryTime and endMilitaryTime
-  function timeDifferenceInMinutes(time1, time2) {
-            const timeFormat = "HH:mm";
-            const datetime1 = moment(time1, timeFormat);
-            const datetime2 = moment(time2, timeFormat);
-            const timeDifference = Math.abs(datetime2.diff(datetime1)) / 60000; // Convert milliseconds to minutes
-            return timeDifference;
-        }
-
-        function convertToMilitaryTime(timeStr) {
-            const timeObj = moment(timeStr, ["h:mm A", "HH:mm"]);
-            const militaryTimeStr = timeObj.format("HH:mm");
-            return militaryTimeStr;
-        }
+            const timeDifference = timeDifferenceInMinutes(currentMilitaryTime, endMilitaryTime);
 
             // Calculate the volume based on the corrected time difference
             const ratePerMin = inductRate / 60;
@@ -204,8 +207,8 @@
             document.getElementById("result").innerHTML = resultText;
         }
 
-
         function calculateRateFromTime() {
+            // Your existing code for calculateRateFromTime
             const inductRate = parseFloat(document.getElementById("inductRate").value);
             if (!inductRate) {
                 document.getElementById("result").innerHTML = '<span style="color: orange;">***Error: Please input an induct rate.***</span>';
@@ -222,7 +225,7 @@
             const endMilitaryTime = convertToMilitaryTime(endTimeInput);
 
             // Calculate the time difference in minutes between currentMilitaryTime and endMilitaryTime
-             const timeDifference = timeDifferenceInMinutes(currentMilitaryTime, endMilitaryTime);
+            const timeDifference = timeDifferenceInMinutes(currentMilitaryTime, endMilitaryTime);
 
             // New Calculator 2
             const remainingVolume = goalVolume - currentVolume;
@@ -247,21 +250,7 @@
 
             document.getElementById("result").innerHTML = resultText;
         }
-
-        function timeDifferenceInMinutes(time1, time2) {
-            const timeFormat = "HH:mm";
-            const datetime1 = moment(time1, timeFormat);
-            const datetime2 = moment(time2, timeFormat);
-            const timeDifference = Math.abs(datetime2.diff(datetime1)) / 60000; // Convert milliseconds to minutes
-            return timeDifference;
-        }
-
-        function convertToMilitaryTime(timeStr) {
-            const timeObj = moment(timeStr, ["h:mm A", "HH:mm"]);
-            const militaryTimeStr = timeObj.format("HH:mm");
-            return militaryTimeStr;
-        }
     </script>
-</body>
-
-</html>
+    </body>
+    
+    </html>
