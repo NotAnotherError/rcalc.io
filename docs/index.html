@@ -303,7 +303,7 @@
             const endTimeCivilian = moment(currentMilitaryTime, "HH:mm").add(minutesLeft, "minutes").format("hh:mm A");
 
             // Display the result
-            const resultText = '<span style="color: blue;">Possible End Time (Military): ' + endTimeMilitary + '</span><br><span style="color: blue;">Possible End Time (Civilian): ' + endTimeCivilian + '</span>';
+            const resultText = '<span style="color: lightblue;">Possible End Time (Military): ' + endTimeMilitary + '</span><br><span style="color: blue;">Possible End Time (Civilian): ' + endTimeCivilian + '</span>';
 
             document.getElementById("result").innerHTML = resultText;
         }
