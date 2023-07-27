@@ -166,7 +166,9 @@
                     Rate</button>
                 <button type="button" class="btn btn-primary" onclick="calculateRateFromTime()">Calculate Rate from
                     Time</button>
+                <button type="button" class="btn btn-primary" onclick="calculateEndTime()">Calculate Possible End Time</button>
             </div>
+
         </form>
 
         <div class="result-container mt-4">
@@ -271,6 +273,40 @@
 
         document.getElementById("result").innerHTML = resultText;
     }
+    function calculateEndTime() {
+            const inductRate = parseFloat(document.getElementById("inductRate").value);
+            if (!inductRate) {
+                document.getElementById("result").innerHTML = '<span style="color: orange;">***Error: Please input an induct rate.***</span>';
+                return; // Return early to prevent further calculations
+            }
+
+            const goalVolume = parseFloat(document.getElementById("goalVolume").value);
+            const currentVolume = parseFloat(document.getElementById("currentVolume").value);
+            const currentTimeInput = document.getElementById("currentTime").value;
+
+            // Convert input time to military time format (HH:MM or HH:MM AM/PM)
+            const currentMilitaryTime = convertToMilitaryTime(currentTimeInput);
+
+            // Calculate rate per minute
+            const ratePerMin = inductRate / 60;
+
+            // Calculate remaining volume
+            const remainingVolume = goalVolume - currentVolume;
+
+            // Calculate minutes left
+            const minutesLeft = remainingVolume / ratePerMin;
+
+            // Calculate possible end time in military time
+            const endTimeMilitary = moment(currentMilitaryTime, "HH:mm").add(minutesLeft, "minutes").format("HH:mm");
+
+            // Calculate possible end time in civilian time
+            const endTimeCivilian = moment(currentMilitaryTime, "HH:mm").add(minutesLeft, "minutes").format("hh:mm A");
+
+            // Display the result
+            const resultText = '<span style="color: blue;">Possible End Time (Military): ' + endTimeMilitary + '</span><br><span style="color: blue;">Possible End Time (Civilian): ' + endTimeCivilian + '</span>';
+
+            document.getElementById("result").innerHTML = resultText;
+        }
 
     function timeDifferenceInMinutes(time1, time2) {
             const timeFormat = "HH:mm";
